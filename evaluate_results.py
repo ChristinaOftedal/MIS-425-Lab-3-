@@ -6,10 +6,10 @@ lists the emotions that get mixed up the most, and prints some wrong predictions
 we can write about in the error analysis section.
 
 Example (one model):
-    python evaluate_results.py --results baseline_results.csv --names Baseline
+    python evaluate_results.py --results results/baseline_results.csv --names Baseline
 
 Example (comparing both models, which is what Option 1 asks for):
-    python evaluate_results.py --results baseline_results.csv new_model_results.csv --names Baseline NewModel
+    python evaluate_results.py --results results/baseline_results.csv results/new_model_results.csv --names Baseline NewModel
 """
 
 import argparse
@@ -132,7 +132,9 @@ def score_one_model(csv_path, model_name):
             ax.text(c, r, matrix[r][c], ha="center", va="center")
     fig.tight_layout()
 
-    picture_name = "confusion_matrix_" + model_name.replace(" ", "_") + ".png"
+    Path("images").mkdir(exist_ok=True)
+    picture_name = Path("images") / ("confusion_matrix_"
+                                     + model_name.replace(" ", "_") + ".png")
     fig.savefig(picture_name, dpi=150)
     plt.close(fig)
     print("Saved confusion matrix picture:", picture_name)
@@ -196,9 +198,10 @@ def main():
     print("COMPARISON TABLE")
     print("=" * 60)
     print(summary.to_string(index=False))
-    summary.to_csv("comparison_table.csv", index=False)
+    Path("results").mkdir(exist_ok=True)
+    summary.to_csv(Path("results") / "comparison_table.csv", index=False)
     print()
-    print("Saved comparison_table.csv")
+    print("Saved results/comparison_table.csv")
 
 
 if __name__ == "__main__":
