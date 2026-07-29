@@ -6,7 +6,7 @@ Lab 3, Option 1: we run TWO models with this same script (the baseline model fro
 class, and a different model we picked) so the two CSV files can be compared fairly.
 
 Example:
-    python run_emotion_model.py --model ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition --out baseline_results.csv
+    python run_emotion_model.py --model ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition --out results/baseline_results.csv
 """
 
 import argparse
@@ -47,7 +47,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", required=True,
                         help="Hugging Face model name")
-    parser.add_argument("--audio_dir", default=".",
+    parser.add_argument("--audio_dir", default="audio",
                         help="Folder that contains the Actor_01, Actor_02, ... folders")
     parser.add_argument("--out", required=True,
                         help="Where to save the CSV file")
