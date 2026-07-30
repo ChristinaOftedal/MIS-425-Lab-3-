@@ -1,0 +1,40 @@
+==================================================
+      RAVDESS EMOTION ANALYSIS SUMMARY REPORT
+==================================================
+
+Total Audio Samples Analyzed: 180
+
+Accuracy / Most Common Model Predictions:
+--------------------------------------------------
+Ground Truth [ANGRY]:
+  -> Most Predicted: 'neutral'
+  -> Match Rate:     24/24 samples (100.0%)
+
+Ground Truth [CALM]:
+  -> Most Predicted: 'disgust'
+  -> Match Rate:     24/24 samples (100.0%)
+
+Ground Truth [DISGUST]:
+  -> Most Predicted: 'fear'
+  -> Match Rate:     24/24 samples (100.0%)
+
+Ground Truth [FEARFUL]:
+  -> Most Predicted: 'angry'
+  -> Match Rate:     11/24 samples (45.8%)
+
+Ground Truth [HAPPY]:
+  -> Most Predicted: 'neutral'
+  -> Match Rate:     23/24 samples (95.8%)
+
+Ground Truth [NEUTRAL]:
+  -> Most Predicted: 'disgust'
+  -> Match Rate:     12/12 samples (100.0%)
+
+Ground Truth [SAD]:
+  -> Most Predicted: 'surprise'
+  -> Match Rate:     23/24 samples (95.8%)
+
+Ground Truth [SURPRISED]:
+  -> Most Predicted: 'happy'
+  -> Match Rate:     23/24 samples (95.8%)
+
