@@ -2,6 +2,8 @@
 
 MIS 425 Lab 3 Speech and Emotion
 
+[Contribute to the Lab Report Template Google Doc](https://docs.google.com/document/d/1i43yxuwl4kXb0z1Qn4dh8r7SzrrLpc0e5On3Pn-qgBM/edit?usp=sharing)
+
 ## Setup
 
 ```bash
