@@ -1,0 +1,42 @@
+==================================================
+ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition
+                        Model 1
+      RAVDESS EMOTION ANALYSIS SUMMARY REPORT
+==================================================
+
+Total Audio Samples Analyzed: 180
+
+Accuracy / Most Common Model Predictions:
+--------------------------------------------------
+Ground Truth [ANGRY]:
+  -> Most Predicted: 'happy'
+  -> Match Rate:     18/24 samples (75.0%)
+
+Ground Truth [CALM]:
+  -> Most Predicted: 'disgust'
+  -> Match Rate:     22/24 samples (91.7%)
+
+Ground Truth [DISGUST]:
+  -> Most Predicted: 'sad'
+  -> Match Rate:     24/24 samples (100.0%)
+
+Ground Truth [FEAR]:
+  -> Most Predicted: 'fearful'
+  -> Match Rate:     23/24 samples (95.8%)
+
+Ground Truth [HAPPY]:
+  -> Most Predicted: 'sad'
+  -> Match Rate:     13/24 samples (54.2%)
+
+Ground Truth [NEUTRAL]:
+  -> Most Predicted: 'calm'
+  -> Match Rate:     10/12 samples (83.3%)
+
+Ground Truth [SAD]:
+  -> Most Predicted: 'surprised'
+  -> Match Rate:     14/24 samples (58.3%)
+
+Ground Truth [SURPRISE]:
+  -> Most Predicted: 'happy'
+  -> Match Rate:     12/24 samples (50.0%)
+
