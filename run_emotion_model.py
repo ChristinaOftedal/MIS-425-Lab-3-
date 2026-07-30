@@ -1,14 +1,3 @@
-"""
-Runs a Hugging Face speech emotion recognition model on the RAVDESS audio files
-and saves every prediction to a CSV file.
-
-Lab 3, Option 1: we run TWO models with this same script (the baseline model from
-class, and a different model we picked) so the two CSV files can be compared fairly.
-
-Example:
-    python run_emotion_model.py --model ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition --out results/baseline_results.csv
-"""
-
 import argparse
 from pathlib import Path
 
@@ -20,27 +9,12 @@ import torch
 from transformers import pipeline
 
 
-def load_audio_for_model(wav_path, target_sample_rate):
-    """
-    Reads one .wav file and gets it into the shape the model expects.
-
-    RAVDESS clips are recorded at 48000 Hz and a couple of them are stereo,
-    but wav2vec2 models want 16000 Hz mono audio. If we skip these two steps
-    the model hears the clip stretched to 3x its real length and pitched way
-    down, and the predictions come out worse than random guessing.
-    """
-    audio, sample_rate = sf.read(wav_path)
-
-    # Step 1: stereo -> mono. A stereo file comes back with 2 columns,
-    # so we average them into a single channel.
+def load_audio(wav_path, target_sr):
+    audio, sr = sf.read(wav_path)
     if audio.ndim > 1:
         audio = audio.mean(axis=1)
-
-    # Step 2: resample to whatever rate the model was trained on (16000 Hz).
-    if sample_rate != target_sample_rate:
-        audio = soxr.resample(audio, sample_rate, target_sample_rate)
-
-    # The model wants 32-bit floats.
+    if sr != target_sr:
+        audio = soxr.resample(audio, sr, target_sr)
     return audio.astype(np.float32)
 
 
@@ -99,7 +73,7 @@ def main():
             print(f"  -> Folder exists. Subfolders found there: {subfolders or '(none)'}")
         print("Expected a structure like: <audio_dir>/Actor_01/*.wav, <audio_dir>/Actor_02/*.wav, ...")
         return
-    print("Found", len(wav_files), "audio files")
+    print("Found", len(wav_files), "files")
 
     rows = []
     skipped = []

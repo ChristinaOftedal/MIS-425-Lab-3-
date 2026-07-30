@@ -18,7 +18,7 @@ import argparse
 from pathlib import Path
  
 import matplotlib
-matplotlib.use("Agg")  # save pictures to files instead of opening a window
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
@@ -48,7 +48,6 @@ LABEL_FIXES = {
  
  
 def get_true_emotion(file_name):
-    """Reads the real emotion out of a RAVDESS file name."""
     parts = file_name.replace(".wav", "").split("-")
     if len(parts) < 3:
         return "unknown"
@@ -62,7 +61,6 @@ def tidy_label(label):
  
  
 def score_one_model(csv_path, model_name):
-    """Scores one results CSV and prints everything we need for the report."""
     print()
     print("=" * 60)
     print("RESULTS FOR:", model_name, " (file:", csv_path, ")")
@@ -127,7 +125,6 @@ def score_one_model(csv_path, model_name):
  
     # --- Precision / recall / F1 ------------------------------------------
     print()
-    print("Precision, recall and F1 for each emotion:")
     print(classification_report(y_true, y_pred, zero_division=0))
  
     # --- Confusion matrix -------------------------------------------------
@@ -150,16 +147,16 @@ def score_one_model(csv_path, model_name):
     fig.tight_layout()
  
     Path("images").mkdir(exist_ok=True)
-    picture_name = Path("images") / ("confusion_matrix_"
-                                     + model_name.replace(" ", "_") + ".png")
+    picture_name = Path("images") / ("confusion_matrix_" + model_name.replace(" ", "_") + ".png")
     fig.savefig(picture_name, dpi=150)
     plt.close(fig)
     print("Saved confusion matrix picture:", picture_name)
  
     # --- Which emotions get mixed up the most -----------------------------
     wrong = df[df["true_emotion"] != df["predicted_emotion"]]
+
     print()
-    print("Most common mix-ups (true -> predicted):")
+    print("Most common mix-ups:")
     mixups = wrong.groupby(["true_emotion", "predicted_emotion"]).size()
     mixups = mixups.sort_values(ascending=False).head(5)
     for (true_label, pred_label), count in mixups.items():
@@ -167,40 +164,38 @@ def score_one_model(csv_path, model_name):
  
     # --- Accuracy for each actor (speaker) --------------------------------
     print()
-    print("Accuracy for each actor:")
+    print("Accuracy by actor:")
     for actor, group in df.groupby("Actor"):
         actor_acc = (group["true_emotion"] == group["predicted_emotion"]).mean()
         print("   %-10s %.4f  (%d clips)" % (actor, actor_acc, len(group)))
  
     # --- Example wrong predictions for the error analysis section ---------
     print()
-    print("Example wrong predictions (the report needs at least 3):")
+    print("Some wrong predictions:")
     for _, row in wrong.head(5).iterrows():
-        print("   %s | true: %-10s predicted: %-10s confidence: %.4f"
+        print("   %s true: %-10s predicted: %-10s conf: %.4f"
               % (row["File Name"], row["true_emotion"],
                  row["predicted_emotion"], row["Confidence Score"]))
  
     return {
         "Model": model_name,
         "Accuracy": round(accuracy, 4),
-        "Average Confidence": round(df["Confidence Score"].mean(), 4),
+        "Average Confidence": round(avg_confidence, 4),
         "Clips Scored": len(df),
     }
  
  
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--results", nargs="+", required=True,
-                        help="One or more results CSV files")
-    parser.add_argument("--names", nargs="+", default=None,
-                        help="A short name for each CSV file")
+    parser.add_argument("--results", nargs="+", required=True)
+    parser.add_argument("--names", nargs="+", default=None)
     args = parser.parse_args()
  
     names = args.names
     if names is None:
         names = [Path(p).stem for p in args.results]
     if len(names) != len(args.results):
-        print("Please give one name for each results file.")
+        print("Give one name for each results file.")
         return
  
     summary_rows = []
@@ -220,13 +215,11 @@ def main():
     # This is the table the assignment asks for in section 6.2.
     summary = pd.DataFrame(summary_rows)
     print()
-    print("=" * 60)
-    print("COMPARISON TABLE")
-    print("=" * 60)
+    print("Comparison")
     print(summary.to_string(index=False))
+
     Path("results").mkdir(exist_ok=True)
     summary.to_csv(Path("results") / "comparison_table.csv", index=False)
-    print()
     print("Saved results/comparison_table.csv")
  
  
